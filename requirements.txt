@@ -1,0 +1,18 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+fastapi
+uvicorn
+python-dotenv
+pypdf
+google-genai
+langchain-core
+langchain-text-splitters
+langchain-chroma
+langchain-huggingface
+sentence-transformers
+chromadb
+fastapi
+uvicorn
+python-dotenv
+pypdf
+google-genai

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Assistente Enfermagem URCA - Campus Iguatu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      background-color: #0A192F;
+      color: #E6F1FF;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      height: 100dvh;
+    }
+    .glass {
+      background: rgba(17, 34, 64, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-color: rgba(100, 255, 218, 0.15);
+    }
+    .prose p { margin-bottom: 0.5rem; }
+    .prose ul { list-style-type: disc; padding-left: 1.25rem; margin-bottom: 0.5rem; }
+    .prose strong { color: #64FFDA; }
+    
+    /* Esconde a barra de rolagem nos chips horizontais do mobile */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #0A192F; }
+    ::-webkit-scrollbar-thumb { background: #233554; border-radius: 3px; }
+  </style>
+</head>
+<body class="flex overflow-hidden relative">
+
+  <!-- Overlay escuro quando o menu mobile está aberto -->
+  <div id="overlay-mobile" onclick="alternarMenuMobile()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-30 hidden md:hidden transition-opacity"></div>
+
+  <!-- Barra Lateral (Fixa no Desktop / Gaveta Deslizante no Mobile) -->
+  <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-40 w-72 md:w-80 glass border-r flex flex-col p-5 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+    <div class="flex items-center justify-between pb-5 border-b border-slate-800">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-teal-400/10 border border-teal-400/40 flex items-center justify-center text-[#64FFDA]">
+          <i data-lucide="stethoscope" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-white leading-tight text-sm md:text-base">Enfermagem URCA</h1>
+          <span class="text-xs text-[#64FFDA]">Campus Iguatu • IA Oficial</span>
+        </div>
+      </div>
+      <!-- Botão fechar menu no mobile -->
+      <button onclick="alternarMenuMobile()" class="md:hidden text-slate-400 hover:text-white p-1">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <div class="mt-5 flex-1 overflow-y-auto space-y-2.5">
+      <p class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold mb-2">
+        Guia Rápido do Calouro
+      </p>
+
+      <button onclick="enviarAtalho('Quais são as disciplinas e horários do 1º semestre de 2026.2?')" class="w-full text-left p-3 rounded-xl bg-slate-800/60 hover:bg-teal-400/10 border border-slate-700/60 hover:border-[#64FFDA]/50 transition text-xs md:text-sm text-slate-200 flex items-center gap-2.5">
+        <i data-lucide="calendar" class="w-4 h-4 text-[#64FFDA] shrink-0"></i>
+        Horários do 1º Semestre
+      </button>
+
+      <button onclick="enviarAtalho('Como funciona o cálculo da média (AV1, AV2 e AVF) para passar nas disciplinas?')" class="w-full text-left p-3 rounded-xl bg-slate-800/60 hover:bg-teal-400/10 border border-slate-700/60 hover:border-[#64FFDA]/50 transition text-xs md:text-sm text-slate-200 flex items-center gap-2.5">
+        <i data-lucide="calculator" class="w-4 h-4 text-[#64FFDA] shrink-0"></i>
+        Cálculo de Notas (Média 7,0)
+      </button>
+
+      <button onclick="enviarAtalho('Quais são as disciplinas da matriz curricular do 1º e 2º período e seus pré-requisitos?')" class="w-full text-left p-3 rounded-xl bg-slate-800/60 hover:bg-teal-400/10 border border-slate-700/60 hover:border-[#64FFDA]/50 transition text-xs md:text-sm text-slate-200 flex items-center gap-2.5">
+        <i data-lucide="book-open" class="w-4 h-4 text-[#64FFDA] shrink-0"></i>
+        Matriz e Pré-requisitos
+      </button>
+
+      <button onclick="enviarAtalho('Como funcionam as horas de Atividades Complementares e certificados?')" class="w-full text-left p-3 rounded-xl bg-slate-800/60 hover:bg-teal-400/10 border border-slate-700/60 hover:border-[#64FFDA]/50 transition text-xs md:text-sm text-slate-200 flex items-center gap-2.5">
+        <i data-lucide="award" class="w-4 h-4 text-[#64FFDA] shrink-0"></i>
+        Atividades Complementares
+      </button>
+
+      <button onclick="enviarAtalho('Como funciona a compra de fichas do RU e o limite de faltas (75%)?')" class="w-full text-left p-3 rounded-xl bg-slate-800/60 hover:bg-teal-400/10 border border-slate-700/60 hover:border-[#64FFDA]/50 transition text-xs md:text-sm text-slate-200 flex items-center gap-2.5">
+        <i data-lucide="help-circle" class="w-4 h-4 text-[#64FFDA] shrink-0"></i>
+        Guia do Calouro (RU e Faltas)
+      </button>
+    </div>
+
+    <div class="pt-4 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
+      <span>Base: 5 PDFs Oficiais</span>
+      <span class="flex items-center gap-1.5 text-[#64FFDA]">
+        <span class="w-2 h-2 rounded-full bg-[#64FFDA] animate-pulse"></span> Online
+      </span>
+    </div>
+  </aside>
+
+  <!-- Área Principal do Chat -->
+  <main class="flex-1 flex flex-col h-full w-full overflow-hidden">
+    <!-- Cabeçalho Mobile e Desktop -->
+    <header class="glass px-4 md:px-6 py-3.5 border-b border-slate-800 flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-3">
+        <button onclick="alternarMenuMobile()" class="md:hidden p-2 -ml-1 rounded-lg bg-slate-800/80 text-[#64FFDA] border border-teal-400/20">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div>
+          <h2 class="font-semibold text-white text-sm md:text-base leading-tight">Assistente Enfermagem URCA</h2>
+          <p class="text-[11px] md:text-xs text-slate-400 truncate max-w-[210px] sm:max-w-none">
+            Manual, POP, Matriz e Horários 2026.2
+          </p>
+        </div>
+      </div>
+      <button onclick="limparChat()" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition flex items-center gap-1.5">
+        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+        <span class="hidden sm:inline">Limpar</span>
+      </button>
+    </header>
+
+    <!-- Mensagens do Chat -->
+    <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-5">
+      <div class="flex items-start gap-3 max-w-3xl">
+        <div class="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-teal-400/10 border border-teal-400/40 flex items-center justify-center text-[#64FFDA] shrink-0">
+          <i data-lucide="bot" class="w-4 h-4 md:w-5 md:h-5"></i>
+        </div>
+        <div class="glass border rounded-2xl rounded-tl-none p-3.5 md:p-4 text-xs md:text-sm text-slate-200 leading-relaxed">
+          Olá! Sou o assistente virtual de <strong>Enfermagem da URCA</strong>. 🩺<br/>
+          Toque em uma das <strong>ações rápidas abaixo</strong> ou digite sua dúvida sobre horários, disciplinas, notas ou normas!
+        </div>
+      </div>
+    </div>
+
+    <!-- Barra Deslizante de Ações Rápidas (Focada em Mobile, mas útil em qualquer tela) -->
+    <div class="px-3 md:px-6 pt-2 pb-1 bg-[#0A192F]/90 border-t border-slate-800/80 shrink-0">
+      <div class="max-w-4xl mx-auto flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+        <button onclick="enviarAtalho('Quais são as disciplinas e horários do 1º semestre de 2026.2?')" class="shrink-0 px-3 py-1.5 rounded-full bg-[#112240] hover:bg-teal-400/15 border border-teal-400/30 text-xs text-[#64FFDA] flex items-center gap-1.5 transition active:scale-95">
+          <span>📅 Horário 1º Sem</span>
+        </button>
+        <button onclick="enviarAtalho('Como funciona o cálculo da média (AV1, AV2 e AVF) para passar nas disciplinas?')" class="shrink-0 px-3 py-1.5 rounded-full bg-[#112240] hover:bg-teal-400/15 border border-teal-400/30 text-xs text-[#64FFDA] flex items-center gap-1.5 transition active:scale-95">
+          <span>🧮 Cálculo da Média</span>
+        </button>
+        <button onclick="enviarAtalho('Quais são as disciplinas da matriz curricular do 1º e 2º período e seus pré-requisitos?')" class="shrink-0 px-3 py-1.5 rounded-full bg-[#112240] hover:bg-teal-400/15 border border-teal-400/30 text-xs text-[#64FFDA] flex items-center gap-1.5 transition active:scale-95">
+          <span>📚 Matriz e Pré-requisitos</span>
+        </button>
+        <button onclick="enviarAtalho('Como funcionam as horas de Atividades Complementares e certificados?')" class="shrink-0 px-3 py-1.5 rounded-full bg-[#112240] hover:bg-teal-400/15 border border-teal-400/30 text-xs text-[#64FFDA] flex items-center gap-1.5 transition active:scale-95">
+          <span>🎓 Horas Complementares</span>
+        </button>
+        <button onclick="enviarAtalho('Como funciona a compra de fichas do RU e o limite de faltas (75%)?')" class="shrink-0 px-3 py-1.5 rounded-full bg-[#112240] hover:bg-teal-400/15 border border-teal-400/30 text-xs text-[#64FFDA] flex items-center gap-1.5 transition active:scale-95">
+          <span>🍽️ Fichas do RU e Faltas</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Barra de Digitação -->
+    <div class="p-3 md:p-4 glass border-t border-slate-800 shrink-0">
+      <form id="chat-form" onsubmit="enviarFormulario(event)" class="max-w-4xl mx-auto flex gap-2 md:gap-3">
+        <input
+          id="input-pergunta"
+          type="text"
+          placeholder="Pergunte sobre horários, matérias, média..."
+          class="flex-1 bg-[#0A192F] border border-slate-700 focus:border-[#64FFDA] rounded-xl px-3.5 py-2.5 md:px-4 md:py-3 text-sm text-white placeholder-slate-500 outline-none transition"
+          autocomplete="off"
+        />
+        <button
+          id="btn-enviar"
+          type="submit"
+          class="px-4 py-2.5 md:px-5 md:py-3 rounded-xl bg-[#64FFDA] hover:bg-teal-300 text-[#0A192F] font-semibold text-sm flex items-center justify-center gap-1.5 transition active:scale-95 disabled:opacity-50 shrink-0"
+        >
+          <span class="hidden sm:inline">Enviar</span>
+          <i data-lucide="send" class="w-4 h-4"></i>
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    // Se estiver rodando pelo FastAPI na nuvem, usa a mesma URL; se abrir o arquivo direto no PC, aponta para localhost:8000
+    const API_URL = window.location.protocol.startsWith("http") && window.location.port !== "5500"
+      ? "/chat"
+      : "http://localhost:8000/chat";
+
+    let historicoConversa = [];
+
+    const chatContainer = document.getElementById("chat-container");
+    const inputPergunta = document.getElementById("input-pergunta");
+    const btnEnviar = document.getElementById("btn-enviar");
+    const sidebar = document.getElementById("sidebar");
+    const overlayMobile = document.getElementById("overlay-mobile");
+
+    function alternarMenuMobile() {
+      const estaAberto = !sidebar.classList.contains("-translate-x-full");
+      if (estaAberto) {
+        sidebar.classList.add("-translate-x-full");
+        overlayMobile.classList.add("hidden");
+      } else {
+        sidebar.classList.remove("-translate-x-full");
+        overlayMobile.classList.remove("hidden");
+      }
+    }
+
+    function adicionarMensagemUsuario(texto) {
+      const div = document.createElement("div");
+      div.className = "flex items-start gap-3 max-w-3xl ml-auto justify-end";
+      div.innerHTML = `
+        <div class="bg-blue-600/30 border border-blue-400/40 rounded-2xl rounded-tr-none p-3.5 md:p-4 text-xs md:text-sm text-white leading-relaxed">
+          ${texto}
+        </div>
+      `;
+      chatContainer.appendChild(div);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function adicionarIndicadorDigitando() {
+      const div = document.createElement("div");
+      div.id = "digitando";
+      div.className = "flex items-start gap-3 max-w-3xl";
+      div.innerHTML = `
+        <div class="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-teal-400/10 border border-teal-400/40 flex items-center justify-center text-[#64FFDA] shrink-0">
+          <i data-lucide="loader-2" class="w-4 h-4 md:w-5 md:h-5 animate-spin"></i>
+        </div>
+        <div class="glass border rounded-2xl rounded-tl-none p-3.5 md:p-4 text-xs md:text-sm text-slate-400">
+          A consultar os PDFs da URCA...
+        </div>
+      `;
+      chatContainer.appendChild(div);
+      lucide.createIcons();
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function adicionarMensagemBot(resposta, modelo, fontes = []) {
+      const digitando = document.getElementById("digitando");
+      if (digitando) digitando.remove();
+
+      const fontesHtml = fontes.length > 0
+        ? `<div class="mt-3 pt-2.5 border-t border-slate-700/60 flex flex-wrap gap-1.5">
+             <span class="text-[10px] text-slate-400 mr-1">📄 Fontes (${modelo}):</span>
+             ${fontes.slice(0, 4).map(f => `<span class="text-[10px] px-2 py-0.5 rounded bg-slate-900/90 text-[#64FFDA] border border-teal-400/20">${f}</span>`).join("")}
+           </div>`
+        : "";
+
+      const div = document.createElement("div");
+      div.className = "flex items-start gap-3 max-w-3xl";
+      div.innerHTML = `
+        <div class="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-teal-400/10 border border-teal-400/40 flex items-center justify-center text-[#64FFDA] shrink-0">
+          <i data-lucide="bot" class="w-4 h-4 md:w-5 md:h-5"></i>
+        </div>
+        <div class="glass border rounded-2xl rounded-tl-none p-3.5 md:p-4 text-xs md:text-sm text-slate-200 leading-relaxed prose max-w-full overflow-x-auto">
+          ${marked.parse(resposta)}
+          ${fontesHtml}
+        </div>
+      `;
+      chatContainer.appendChild(div);
+      lucide.createIcons();
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    async function processarPergunta(pergunta) {
+      // Se o menu gaveta estiver aberto no mobile, fecha ao clicar no atalho
+      if (!sidebar.classList.contains("-translate-x-full")) {
+        alternarMenuMobile();
+      }
+
+      adicionarMensagemUsuario(pergunta);
+      inputPergunta.value = "";
+      btnEnviar.disabled = true;
+      adicionarIndicadorDigitando();
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            pergunta: pergunta,
+            historico: historicoConversa
+          })
+        });
+
+        if (!response.ok) throw new Error(`Erro HTTP ${response.status}`);
+
+        const dados = await response.json();
+        adicionarMensagemBot(dados.resposta, dados.modelo, dados.fontes);
+
+        historicoConversa.push(`Aluno: ${pergunta}`);
+        historicoConversa.push(`Bot: ${dados.resposta}`);
+      } catch (erro) {
+        adicionarMensagemBot(
+          "⚠️ **Servidor offline.** Verifique se o terminal está rodando:\n`python -m uvicorn api:app --reload`",
+          "Offline",
+          []
+        );
+      } finally {
+        btnEnviar.disabled = false;
+      }
+    }
+
+    function enviarFormulario(e) {
+      e.preventDefault();
+      const texto = inputPergunta.value.trim();
+      if (texto) processarPergunta(texto);
+    }
+
+    function enviarAtalho(texto) {
+      processarPergunta(texto);
+    }
+
+    function limparChat() {
+      historicoConversa = [];
+      chatContainer.innerHTML = "";
+      adicionarMensagemBot("Conversa reiniciada! Toque em um atalho rápido abaixo ou digite sua dúvida.", "Sistema", []);
+    }
+  </script>
+</body>
+</html>

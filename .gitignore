@@ -1,0 +1,5 @@
+.env
+chroma_db_urca/
+__pycache__/
+venv/
+.venv/
